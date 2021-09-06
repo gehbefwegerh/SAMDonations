@@ -11,7 +11,6 @@ environment variable or in the same folder as this script."""
 
 import os
 import time
-import math
 import requests
 import json
 
@@ -45,32 +44,29 @@ time.sleep(13)
 
 def mainLoop(ID):
     while True:
+        # resets start number, then retrieves new donations
         start = 0
         newDonations = json.loads(requests.request("GET", URL, headers=HEADERS,
                                   params={"access_token":ACCESS_TOKEN,
                                           "after":ID}).text)["data"]
+        # if there are any new donations, reads the oldest and sets the
+        # new start ID
         if newDonations:
             currentDonation = newDonations[-1]
             ID = currentDonation["donation_id"]
             
+            # Reads out the name, amount, and currency of the donation.
             os.system(f"cmd /c sam {currentDonation['name']} donated " + 
                        f"{str(float(currentDonation['amount']))} " +
                        f"{CURRENCIES[currentDonation['currency']]}")
-            time.sleep(1)
+            # slight pause before reading the message
+            time.sleep(0.5)
             
             message = currentDonation["message"]
             if message:
-                messageLen = len(message) # real creative
-                # calculate amount of <=100 chr strings needed and
-                # iterate that many times.
-                for i in range(math.ceil(messageLen / 100)):
-                    # takes a 100 chr slice, says it, then adds 100 to start there next time.
-                    if start + 100 <= messageLen:
-                        os.system(f"cmd /c sam --pitch 80 {message[start:start+100]}")
-                        start += 100
-                    # check whether slice upper bound would be too high, and use final index instead
-                    else:
-                        os.system(f"cmd /c sam --pitch 80 {message[start:messageLen-1]}")
+                mesWords = message.split(" ")
+                for word in mesWords:
+                    os.system(f"sam -pitch 75 -throat 100 -mouth 150 {word}")
 
             time.sleep(13)
         else:
@@ -78,5 +74,4 @@ def mainLoop(ID):
             continue
 
 
-# mainLoop(START_DONATION_ID)
-mainLoop(156694052)
+mainLoop(START_DONATION_ID)
