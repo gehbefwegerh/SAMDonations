@@ -58,9 +58,10 @@ def mainLoop(ID):
             ID = currentDonation["donation_id"]
 
             # Reads out the name, amount, and currency of the donation.
-            os.system(f"cmd /c sam {currentDonation['name']} donated " +
-                      f"{str(float(currentDonation['amount']))} " +
-                      f"{CURRENCIES[currentDonation['currency']]}")
+            # Split up to avoid character limit.
+            os.system(f"cmd /c sam {currentDonation['name']} donated ")
+            os.system(f"cmd /c sam {str(float(currentDonation['amount']))} ")
+            os.system(f"cmd /c sam {CURRENCIES[currentDonation['currency']]}")
             # slight pause before reading the message
             time.sleep(0.5)
 
