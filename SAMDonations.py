@@ -15,6 +15,7 @@ import time
 import requests
 import json
 
+# Just so SAM reads it properly.
 CURRENCIES = {"AUD": "Australian Dollars", "BRL": "Brazilian Reais",
               "CAD": "Canadian Dollars", "CZK": "Czech Korunas",
               "DKK": "Danish Kroner", "EUR": "Euros",
@@ -35,20 +36,27 @@ ACCESS_TOKEN = TOKEN_FILE.read()
 TOKEN_FILE.close()
 URL = "https://streamlabs.com/api/v1.0/donations"
 HEADERS = {"Accept": "application/json"}
-# Gets donations in json, converts it to a python dict, then gets the
-# ID of the most recent donation and converts it to int. It's all we
-# need.
-START_DONATION_ID = int(json.loads(requests.request("GET", URL,
-                        headers=HEADERS, params={"access_token": ACCESS_TOKEN}
-                                   ).text)["data"][0]["donation_id"])
-# delay due to testing status, bug me to fix it if this becomes public
-time.sleep(13)
 
 
-def mainLoop(ID):
+def mainLoop():
+    print("Getting most recent donation ID...")
+    try:
+        # Gets donations in json, converts it to a python dict, then gets the
+        # ID of the most recent donation and converts it to int. It's all we
+        # need.
+        ID = int(json.loads(requests.request("GET", URL, headers=HEADERS,
+                            params={"access_token": ACCESS_TOKEN}
+                                    ).text)["data"][0]["donation_id"])
+        print("Got it.\nScanning (13 second delay)...")
+    except IndexError:
+        ID = "1"
+        print("No donations found.")
+    # delay due to testing status, bug me to fix it if this becomes public
+    time.sleep(13)
     while True:
         # resets start number, then retrieves new donations
-        newDonations = json.loads(requests.request("GET", URL, headers=HEADERS,
+        newDonations = json.loads(requests.request(
+                                  "GET", URL, headers=HEADERS,
                                   params={"access_token": ACCESS_TOKEN,
                                           "after": ID}).text)["data"]
         # if there are any new donations, reads the oldest and sets the
@@ -60,7 +68,7 @@ def mainLoop(ID):
             # Reads out the name, amount, and currency of the donation.
             # Split up to avoid character limit.
             os.system(f"cmd /c sam {currentDonation['name']} donated ")
-            os.system(f"cmd /c sam {str(float(currentDonation['amount']))} ")
+            os.system(f"cmd /c sam {str(float(currentDonation['amount']))}")
             os.system(f"cmd /c sam {CURRENCIES[currentDonation['currency']]}")
             # slight pause before reading the message
             time.sleep(0.5)
@@ -69,12 +77,12 @@ def mainLoop(ID):
             if message:
                 mesWords = message.split(" ")
                 for word in mesWords:
-                    os.system(f"sam -pitch 75 -throat 100 -mouth 150 {word}")
-
+                    os.system("sam -pitch 75 -throat 100 -mouth 150"
+                              f"{word}")
             time.sleep(13)
         else:
             time.sleep(13)
             continue
 
 
-mainLoop(START_DONATION_ID)
+mainLoop()
