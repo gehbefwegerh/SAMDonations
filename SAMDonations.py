@@ -47,12 +47,12 @@ def mainLoop():
         ID = int(json.loads(requests.request("GET", URL, headers=HEADERS,
                             params={"access_token": ACCESS_TOKEN}
                                     ).text)["data"][0]["donation_id"])
-        print("Got it.\nScanning (13 second delay)...")
+        print("Scanning (15 second delay)...")
     except IndexError:
-        ID = "1"
-        print("No donations found.")
+        ID = 1
+        print("No donations found.\nScanning (15 second delay)...")
     # delay due to testing status, bug me to fix it if this becomes public
-    time.sleep(13)
+    time.sleep(15)
     while True:
         # resets start number, then retrieves new donations
         newDonations = json.loads(requests.request(
@@ -79,9 +79,9 @@ def mainLoop():
                 for word in mesWords:
                     os.system("sam -pitch 75 -throat 100 -mouth 150"
                               f"{word}")
-            time.sleep(13)
+            time.sleep(15)
         else:
-            time.sleep(13)
+            time.sleep(15)
             continue
 
 
