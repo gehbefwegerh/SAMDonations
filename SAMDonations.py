@@ -47,12 +47,12 @@ def mainLoop():
         ID = int(json.loads(requests.request("GET", URL, headers=HEADERS,
                             params={"access_token": ACCESS_TOKEN}
                                     ).text)["data"][0]["donation_id"])
-        print("Scanning (15 second delay)...")
+        print("Scanning (5 second delay)...")
     except IndexError:
         ID = 1
-        print("No donations found.\nScanning (15 second delay)...")
+        print("No donations found.\nScanning (5 second delay)...")
     # delay due to testing status, bug me to fix it if this becomes public
-    time.sleep(15)
+    time.sleep(5)
     while True:
         # resets start number, then retrieves new donations
         newDonations = json.loads(requests.request(
@@ -71,17 +71,19 @@ def mainLoop():
             os.system(f"cmd /c sam {str(float(currentDonation['amount']))}")
             os.system(f"cmd /c sam {CURRENCIES[currentDonation['currency']]}")
             # slight pause before reading the message
-            time.sleep(0.5)
 
             message = currentDonation["message"]
             if message:
-                mesWords = message.split(" ")
+                print(message)
+                mesWords = message.split(".")
+                print(mesWords)
                 for word in mesWords:
-                    os.system("sam -pitch 75 -throat 100 -mouth 150"
-                              f"{word}")
-            time.sleep(15)
+                    os.system(f"cmd /c sam -pitch 75 -throat 100 -mouth 150 {word}"
+                              )
+            time.sleep(5)
         else:
-            time.sleep(15)
+            time.sleep(5)
+            print("Still scanning")
             continue
 
 

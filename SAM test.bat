@@ -1,0 +1,2 @@
+rem Run this to test that the donation reader is working. Replace YOURACCESKEYHERE with your access key for this to work.
+curl --request POST --url "https://streamlabs.com/api/v1.0/donations" -d "name=doplex&identifier=12345&amount=1562&currency=MXN&message='This is naked man. He's keeping me prisoner. Send help.'&access_token=YOURACCESKEYHERE"
