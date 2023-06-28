@@ -9,4 +9,4 @@ In addition, you need to download Sebastian Macke's SAM port for Windows, and ad
 The port can be found here: https://simulationcorner.net/index.php?page=sam
 
 
-If you want to use the SAMTest.bat, you also need to add your access token to that file. Instructions can be found inside the file.
+If you want to use the SAMTest.bat, which is just to test that the program is working properly, you also need to add your access token to that file. Instructions can be found inside the file.
