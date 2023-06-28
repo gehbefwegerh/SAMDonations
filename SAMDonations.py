@@ -74,9 +74,7 @@ def mainLoop():
 
             message = currentDonation["message"]
             if message:
-                print(message)
                 mesWords = message.split(".")
-                print(mesWords)
                 for word in mesWords:
                     os.system(f"cmd /c sam -pitch 75 -throat 100 -mouth 150 {word}"
                               )
