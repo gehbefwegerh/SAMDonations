@@ -76,8 +76,8 @@ def mainLoop():
             if message:
                 mesWords = message.split(".")
                 for word in mesWords:
-                    os.system(f"cmd /c sam -pitch 75 -throat 100 -mouth 150 {word}"
-                              )
+                    os.system("cmd /c sam -pitch 75 -throat 100 -mouth 150"
+                              + f" {word}")
             time.sleep(5)
         else:
             time.sleep(5)
