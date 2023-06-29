@@ -17,11 +17,11 @@ You have 2 options:
 For both methods:
 1. Download the files from the github repository and put them in a folder together.
 2. Download SAM (link in readme.md), and add it to your system PATH.
+3. Open accessToken.txt in a text editor, enter your API access token, and save the file.
+4. (Optional) Open SAMTest.bat in a text editor, and add your access token to SAMTest.bat where instructed in the file. Run the file to test that the main program is working correctly.
 
 Option 1: Using the exe (easier, but of course more suspicious)
-1. Open accessToken.txt in a text editor, enter your API access token, and save the file.
-2. Run SAMDonations.exe, and wait for donations.
-3. (Optional) Open SAMTest.bat in a text editor, and add your access token to SAMTest.bat where instructed in the file. Run the file to test that the main program is working correctly.
+1. Run SAMDonations.exe, and wait for donations.
 
 Option 2: Using the SAMDonations.py file. (harder, but you can check the code, therefore safer)
 1. Install python, making sure to add it to your PATH
